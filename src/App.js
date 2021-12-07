@@ -1,5 +1,7 @@
 import './App.css';
 import {React, useState} from 'react';
+import {Modal,Button} from 'react-bootstrap';
+import { Rating, RatingView } from 'react-simple-star-rating'
 
 function App() {
   
@@ -7,8 +9,19 @@ function App() {
   let [cart, setCart] = useState(0);
   let [siSelected, setSiSelected] = useState(false);
   let [total, setTotal] = useState(0)
+  let [show, setShow] = useState(false);
+  let [rating, setRating] = useState(0)
 
-  function addCartItem(item){
+  const handleRating = (rate) => {
+    setRating(rate)
+    console.log(`${rate}`)
+    
+  }
+   
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+function addCartItem(item){
     setCart(cart + 1);
     // setSiSelected(prev => !prev);
     setTotal(prev => prev + item.price);
@@ -38,6 +51,37 @@ function App() {
 
   return (
     <>
+
+      {/* <Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button> */}
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cart List</Modal.Title>
+        </Modal.Header>
+        <Modal.Body> 
+          {
+            cartItems.map(e => {
+              return <div>
+                <table>
+                   <tr style={{display: 'flex', justifyContent: 'space-around', textAlign: 'left'}}>
+                       <td>{e.name}</td>
+                       <td>{e.price}</td>
+                       <td><button className="btn btn-danger" onClick={() => deleteItem(e)}>Delete</button></td>
+                   </tr>
+                </table>
+              </div>
+            })
+          }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       {/* Navigation */}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -58,15 +102,15 @@ function App() {
                         </li>
                     </ul>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                        {/* <div>
+                          price ${total}
+                        </div> */}
+                    </form>
+                    <button class="btn btn-outline-dark" onClick={handleShow}>
                             <i class="bi-cart-fill me-1"></i>
                             cart 
                             <span class="badge bg-dark text-white ms-1 rounded-pill">{cart}</span>
-                        </button>
-                        <div>
-                          price ${total}
-                        </div>
-                    </form>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -78,21 +122,7 @@ function App() {
                     <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                 </div>
             </div>
-        </header>
-        {/* Section */}
-        <section>
-          CartItems:
-          {
-            cartItems.map(e => {
-              return <div>
-                {e.name}
-                <br/>
-                {e.price}
-                <button className="btn btn-danger" onClick={() => deleteItem(e)}>Delete</button>
-              </div>
-            })
-          }
-        </section>
+        </header>         
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -128,11 +158,13 @@ function App() {
                                     <h5 class="fw-bolder">Special Item</h5>
                                     {/* Product reviews */}
                                     <div class="d-flex justify-content-center small text-warning mb-2">
+                                        {/* <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div> */}
+                                        <Rating onClick={handleRating} ratingValue={rating} /* Rating Props */ />
+                                        <RatingView ratingValue={rating}/>
                                     </div>
                                     {/* Product price */}
                                     <span class="text-muted text-decoration-line-through">$20.00</span>
@@ -183,11 +215,12 @@ function App() {
                                     <h5 class="fw-bolder">Popular Item</h5>
                                     {/* Product reviews */}
                                     <div class="d-flex justify-content-center small text-warning mb-2">
+                                        {/* <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div> */}
+                                        <Rating onClick={handleRating} ratingValue={rating} /* Rating Props */ />
                                     </div>
                                     {/* Product price */}
                                     $40.00
@@ -195,7 +228,7 @@ function App() {
                             </div>
                             {/* Product actions */}
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                            <div class="text-center"><button class="btn btn-outline-dark mt-auto" onClick={() => addCartItem({name: "Popular Item", price: 40})}>Add Cart</button></div>
                             </div>
                         </div>
                     </div>
@@ -217,7 +250,7 @@ function App() {
                             </div>
                             {/* Product actions */}
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                            <div class="text-center"><button class="btn btn-outline-dark mt-auto" onClick={() => addToCart({name: "Sale Item", price: 25})}>Add to cart</button></div>
                             </div>
                         </div>
                     </div>
@@ -253,11 +286,12 @@ function App() {
                                     <h5 class="fw-bolder">Special Item</h5>
                                     {/* <!-- Product reviews--> */}
                                     <div class="d-flex justify-content-center small text-warning mb-2">
+                                        {/* <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div> */}
+                                        <Rating onClick={handleRating} ratingValue={rating} /* Rating Props */ />
                                     </div>
                                     {/* <!-- Product price--> */}
                                     <span class="text-muted text-decoration-line-through">$20.00</span>
@@ -266,7 +300,7 @@ function App() {
                             </div>
                             {/* <!-- Product actions--> */}
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                            <div class="text-center"><button class="btn btn-outline-dark mt-auto" onClick={() => addCartItem({name: "Special Item", price: 18})}>Add Cart</button></div>
                             </div>
                         </div>
                     </div>
@@ -281,11 +315,12 @@ function App() {
                                     <h5 class="fw-bolder">Popular Item</h5>
                                     {/* <!-- Product reviews--> */}
                                     <div class="d-flex justify-content-center small text-warning mb-2">
+                                        {/* <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div> */}
+                                        <Rating onClick={handleRating} ratingValue={rating} /* Rating Props */ />
                                     </div>
                                     {/* <!-- Product price--> */}
                                     $40.00
@@ -293,7 +328,7 @@ function App() {
                             </div>
                             {/* <!-- Product actions--> */}
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                              <div class="text-center"><button class="btn btn-outline-dark mt-auto" onClick={() => addCartItem({name: "Popular Item", price: 40})}>Add Cart</button></div>
                             </div>
                         </div>
                     </div>
