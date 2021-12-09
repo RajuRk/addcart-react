@@ -5,6 +5,7 @@ import { Rating, RatingView } from 'react-simple-star-rating'
 
 function App() {
   
+  let [count, setCount] = useState(1);
   let [cartItems, setCartItems] = useState([]);
   let [cart, setCart] = useState(0);
   let [siSelected, setSiSelected] = useState(false);
@@ -63,14 +64,14 @@ function addCartItem(item){
         <Modal.Body> 
           {
             cartItems.map(e => {
-              return <div>
-                <table>
-                   <tr style={{display: 'flex', justifyContent: 'space-around', textAlign: 'left'}}>
-                       <td>{e.name}</td>
-                       <td>{e.price}</td>
-                       <td><button className="btn btn-danger" onClick={() => deleteItem(e)}>Delete</button></td>
-                   </tr>
-                </table>
+              let i = 1;
+              return <div className="cartBox">
+                <ul>
+                    <li>{(count++)}</li>
+                    <li>{e.name}</li>
+                    <li>{e.price}</li>
+                    <li><button className="btn btn-danger" onClick={() => deleteItem(e)}>Delete</button></li>
+                </ul>
               </div>
             })
           }
