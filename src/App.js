@@ -159,13 +159,11 @@ function addCartItem(item){
                                     <h5 class="fw-bolder">Special Item</h5>
                                     {/* Product reviews */}
                                     <div class="d-flex justify-content-center small text-warning mb-2">
-                                        {/* <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
                                         <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div> */}
-                                        <Rating onClick={handleRating} ratingValue={rating} /* Rating Props */ />
-                                        <RatingView ratingValue={rating}/>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
                                     </div>
                                     {/* Product price */}
                                     <span class="text-muted text-decoration-line-through">$20.00</span>
